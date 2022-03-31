@@ -51,6 +51,7 @@ class ApiAdapter(private val context: Context): RecyclerView.Adapter<RecyclerVie
     class ApiItemViewHolder(view: View): RecyclerView.ViewHolder(view){
         val rootView: ConstraintLayout = view.findViewById(R.id.rootView)
         val nameTextView: TextView = view.findViewById(R.id.nameTextView)
+        val addressTextView: TextView = view.findViewById(R.id.addressTextView)
         val imageView: ImageView = view.findViewById(R.id.imageView)
         val favoriteImageView: ImageView = view.findViewById(R.id.favoriteImageView)
     }
@@ -79,6 +80,7 @@ class ApiAdapter(private val context: Context): RecyclerView.Adapter<RecyclerVie
                 }
             }
             nameTextView.text = data.name
+            addressTextView.text = data.address
             Picasso.get().load(data.logoImage).into(imageView)
             //白抜きの星マークの画像を指定
             favoriteImageView.setImageResource(R.drawable.ic_star_border)

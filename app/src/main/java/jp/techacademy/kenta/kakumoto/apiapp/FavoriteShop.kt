@@ -9,6 +9,7 @@ open class FavoriteShop: RealmObject() {
     var id: String = ""
     var imageUrl: String = ""
     var name: String = ""
+    var address: String = ""
     var url: String = ""
 
     companion object{

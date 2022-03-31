@@ -32,6 +32,7 @@ class FavoriteAdapter(private val context: Context): RecyclerView.Adapter<Recycl
     class FavoriteItemViewHolder(view: View): RecyclerView.ViewHolder(view){
         val rootView: ConstraintLayout = view.findViewById(R.id.rootView)
         val nameTextView: TextView = view.findViewById(R.id.nameTextView)
+        val addressTextView: TextView = view.findViewById(R.id.addressTextView)
         val imageView: ImageView = view.findViewById(R.id.imageView)
         val favoriteImageView: ImageView = view.findViewById(R.id.favoriteImageView)
     }
@@ -69,6 +70,7 @@ class FavoriteAdapter(private val context: Context): RecyclerView.Adapter<Recycl
                 }
             }
             nameTextView.text = data.name
+            addressTextView.text = data.address
             Picasso.get().load(data.imageUrl).into(imageView)
             favoriteImageView.setOnClickListener{
                 onClickDeleteFavorite?.invoke(data)

@@ -13,6 +13,8 @@ data class Results(
 )
 
 data class Shop(
+    @SerializedName("address")
+    val address: String,
     @SerializedName("coupon_urls")
     val couponUrls: CouponUrls,
     @SerializedName("id")
