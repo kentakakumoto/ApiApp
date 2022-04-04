@@ -22,7 +22,7 @@ class ApiAdapter(private val context: Context): RecyclerView.Adapter<RecyclerVie
     var onClickDeleteFavorite: ((Shop) -> Unit)? = null
 
     //Itemを押した時のメソッド
-    var onClickItem: ((String) -> Unit)? = null
+    var onClickItem: ((Shop) -> Unit)? = null
 
     //リスト更新・refresh:全リストクリア、add:リストクリアしない
     fun refresh(list: List<Shop>){
@@ -70,18 +70,18 @@ class ApiAdapter(private val context: Context): RecyclerView.Adapter<RecyclerVie
         //生成されたViewHolderの位置を指定しオブジェクトを代入
         val data = items[position]
         val isFavorite = FavoriteShop.findBy(data.id) != null
-        Log.d("TEST", "isFavorite:"+isFavorite)
+        Log.d("TEST", "updateApiItemViewHolder position"+position+"id:"+data.id+data.name)
         holder.apply{
             rootView.apply{
                 setBackgroundColor(ContextCompat.getColor(context,
                     if(position % 2 == 0) android.R.color.white else android.R.color.darker_gray))
                 setOnClickListener{
-                    onClickItem?.invoke(if(data.couponUrls.sp.isNotEmpty()) data.couponUrls.sp else data.couponUrls.pc)
+                    onClickItem?.invoke(data)
                 }
             }
             nameTextView.text = data.name
             addressTextView.text = data.address
-            Picasso.get().load(data.logoImage).into(imageView)
+            Picasso.get().load(data.logo_image).into(imageView)
             //白抜きの星マークの画像を指定
             favoriteImageView.setImageResource(R.drawable.ic_star_border)
 

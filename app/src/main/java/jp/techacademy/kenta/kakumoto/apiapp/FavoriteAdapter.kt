@@ -1,6 +1,7 @@
 package jp.techacademy.kenta.kakumoto.apiapp
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +20,7 @@ class FavoriteAdapter(private val context: Context): RecyclerView.Adapter<Recycl
     //お気に入り画面から削除するときのCallback(ApiFragmentへ通知)
     var onClickDeleteFavorite: ((FavoriteShop) -> Unit)? = null
 
-    var onClickItem: ((String) -> Unit)? = null
+    var onClickItem: ((Shop) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType){
@@ -62,11 +63,20 @@ class FavoriteAdapter(private val context: Context): RecyclerView.Adapter<Recycl
 
     private fun updateFavoriteItemViewHolder(holder: FavoriteItemViewHolder, position: Int){
         val data = items[position]
+        var dataShop = Shop("no address", CouponUrls("no url", "no url"), "no id", "no logo_image", "no name")
+        dataShop.id = data.id
+        dataShop.address = data.address
+        dataShop.coupon_urls.sp = data.url
+        dataShop.coupon_urls.pc = data.url
+        dataShop.name = data.name
+        dataShop.logo_image = data.imageUrl
+        Log.d("TEST","updateFavoriteItemViewHolder position:"+position+"id:"+dataShop.id+dataShop.name)
+
         holder.apply{
             rootView.apply{
                 setBackgroundColor(ContextCompat.getColor(context, if(position % 2 == 0) android.R.color.white else android.R.color.darker_gray))
                 setOnClickListener{
-                    onClickItem?.invoke(data.url)
+                    onClickItem?.invoke(dataShop)
                 }
             }
             nameTextView.text = data.name

@@ -2,6 +2,7 @@ package jp.techacademy.kenta.kakumoto.apiapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
@@ -29,8 +30,9 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
         }.attach()
     }
 
-    override fun onClickItem(url: String){
-        WebViewActivity.start(this, url)
+    override fun onClickItem(shop: Shop){
+        Log.d("TEST","MainActivity onClickItem shop:"+shop.name+":"+shop.logo_image)
+        WebViewActivity.start(this, shop)
     }
 
     override fun onAddFavorite(shop: Shop){
@@ -38,8 +40,8 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
             id = shop.id
             name = shop.name
             address = shop.address
-            imageUrl = shop.logoImage
-            url = if(shop.couponUrls.sp.isNotEmpty()) shop.couponUrls.sp else shop.couponUrls.pc
+            imageUrl = shop.logo_image
+            url = if(shop.coupon_urls.sp.isNotEmpty()) shop.coupon_urls.sp else shop.coupon_urls.pc
         })
         (viewPagerAdapter.fragments[VIEW_PAGER_POSITION_FAVORITE] as FavoriteFragment).updateData()
     }
