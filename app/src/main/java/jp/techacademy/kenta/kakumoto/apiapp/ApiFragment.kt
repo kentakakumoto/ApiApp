@@ -45,6 +45,7 @@ class ApiFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var keyword: String ="ランチ"
 
         //ここから初期化
         //ApiAdapterのお気に入り追加・削除用のメソッド追加
@@ -74,23 +75,32 @@ class ApiFragment: Fragment() {
                     val lastVisibleItem = (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                    //下から５番目を表示した時に追加読み込みをする
                     if(!isLoading && lastVisibleItem >= totalCount -6){
-                        updateData(true)
+                        updateData(true, keyword)
                     }
                 }
             })
         }
 
         swipeRefreshLayout.setOnRefreshListener{
-            updateData()
+            updateData(false, keyword)
         }
-        Log.d("TEST","updateData() called")
-        updateData()
+        Log.d("TEST","updateData() called keyword:"+ keyword)
+        updateData(false, keyword)
+
+        searchButton.setOnClickListener {
+            keyword = searchEditText.text.toString() ?:"ランチ"
+            if(keyword.length == 0){
+                keyword = "ランチ"
+            }
+            Log.d("TEST","keyword定義:"+keyword)
+            updateData(false, keyword)
+        }
     }
 
     fun updateView(){ //お気に入りが削除された時の処理（ Activityからコールされる）
         recyclerView.adapter?.notifyDataSetChanged()
     }
-    private fun updateData(isAdd: Boolean = false){
+    private fun updateData(isAdd: Boolean = false, keyword: String){
         if(isLoading){
             return
         }else{
@@ -110,7 +120,7 @@ class ApiFragment: Fragment() {
             .append("?key=").append(getString(R.string.api_key))
             .append("&start=").append(start) //何件目
             .append("&count=").append(COUNT)//１回で２０件取得
-            .append("&keyword=").append(getString(R.string.api_keyword))
+            .append("&keyword=").append(keyword)
             .append("&format=json")//戻りの型
             .toString()
 
