@@ -42,8 +42,7 @@ class FavoriteAdapter(private val context: Context): RecyclerView.Adapter<Recycl
     fun refresh(list: List<FavoriteShop>){
         items.apply{
             clear()
-            val limitedList = list.filter{it.status}
-            addAll(limitedList)
+            addAll(list)
         }
         notifyDataSetChanged()
     }

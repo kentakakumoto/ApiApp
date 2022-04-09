@@ -18,6 +18,7 @@ open class FavoriteShop: RealmObject() {
         fun findAll(): List<FavoriteShop> = //全件表示
             Realm.getDefaultInstance().use{ realm ->
                 realm.where(FavoriteShop::class.java)
+                    .equalTo(FavoriteShop::status.name, true)
                     .findAll().let{
                         realm.copyFromRealm(it)
                     }
