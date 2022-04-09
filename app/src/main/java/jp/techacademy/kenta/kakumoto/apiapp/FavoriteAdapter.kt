@@ -42,7 +42,8 @@ class FavoriteAdapter(private val context: Context): RecyclerView.Adapter<Recycl
     fun refresh(list: List<FavoriteShop>){
         items.apply{
             clear()
-            addAll(list)
+            val limitedList = list.filter{it.status}
+            addAll(limitedList)
         }
         notifyDataSetChanged()
     }
@@ -70,7 +71,7 @@ class FavoriteAdapter(private val context: Context): RecyclerView.Adapter<Recycl
         dataShop.coupon_urls.pc = data.url
         dataShop.name = data.name
         dataShop.logo_image = data.imageUrl
-        Log.d("TEST","updateFavoriteItemViewHolder position:"+position+"id:"+dataShop.id+dataShop.name)
+        Log.d("TEST","updateFavoriteItemViewHolder position:"+position+",status:"+data.status+" name:"+dataShop.name)
 
         holder.apply{
             rootView.apply{

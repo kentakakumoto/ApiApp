@@ -11,8 +11,10 @@ open class FavoriteShop: RealmObject() {
     var name: String = ""
     var address: String = ""
     var url: String = ""
+    var status:Boolean = true
 
     companion object{
+
         fun findAll(): List<FavoriteShop> = //全件表示
             Realm.getDefaultInstance().use{ realm ->
                 realm.where(FavoriteShop::class.java)
@@ -25,7 +27,8 @@ open class FavoriteShop: RealmObject() {
             Realm.getDefaultInstance().use{ realm ->
                 realm.where(FavoriteShop::class.java)
                     .equalTo(FavoriteShop::id.name, id)
-                    .findFirst()?.let{
+                    .equalTo(FavoriteShop::status.name, true)
+                    .findFirst()?.also{
                         realm.copyFromRealm(it)
                     }
             }
@@ -41,7 +44,7 @@ open class FavoriteShop: RealmObject() {
                     .equalTo(FavoriteShop::id.name, id)
                     .findFirst()?.also{ deleteShop ->
                         realm.executeTransaction{
-                            deleteShop.deleteFromRealm()
+                            deleteShop.status = false //deleteShop.deleteFromRealm()
                         }
                     }
             }
